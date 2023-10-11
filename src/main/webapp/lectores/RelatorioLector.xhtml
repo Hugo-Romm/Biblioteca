@@ -1,0 +1,114 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo" >
+	
+			Empresa: #{confifi.nomeEmpresa}.
+	</ui:define>
+
+	<ui:define name="cuerpo">
+		<h:form id="frm">
+			
+
+			<p:messages autoUpdate="true" closable="true" />
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Procesar"
+						action="#{listadoLectoresBean.pesquisar}" update="@form" />
+				</p:toolbarGroup>
+
+				<p:toolbarGroup>
+					<p:commandButton value="Detallado" type="button"
+						icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+						<p:printer target="bayer" />
+					</p:commandButton>
+
+				</p:toolbarGroup>
+
+			</p:toolbar>
+
+			<h:panelGrid id="bayer" columns="1" style="width: 100%" >
+			
+               <h1>Listado de lectores registrados</h1>
+				<p:panelGrid columns="2" id="painel"
+					style="width: 60%; margin-top: 20px ;float:left"
+					columnClasses="rotulo, campo">
+					<p:outputLabel value="Código" />
+					<h:panelGroup>
+						<p:outputLabel value="" for="id" />
+						<p:inputText id="id" size="8"
+							value="#{listadoLectoresBean.codigoInicio}" />
+						<p:spacer width="8" />
+						<h:outputText value="a" />
+						<p:spacer width="8" />
+						<p:outputLabel value="" for="id221" />
+						<p:inputText id="id221" size="8"
+							value="#{listadoLectoresBean.codigoFin}" />
+					</h:panelGroup>
+					<p:outputLabel value="Nombre" />
+					<h:panelGroup>
+						<p:outputLabel value="" for="id1" />
+						<p:inputText id="id1" size="8"
+							value="#{listadoLectoresBean.descriInicio}" />
+						<p:spacer width="8" />
+						<h:outputText value="a" />
+						<p:spacer width="8" />
+						<p:outputLabel value="" for="id222" />
+						<p:inputText id="id222" size="8"
+							value="#{listadoLectoresBean.descriFin}" />
+					</h:panelGroup>
+
+
+
+				</p:panelGrid>
+				
+				<h:panelGrid columns="1"
+					style="width: 40% ;float:left">
+
+					<p:outputLabel for="orden" value="Ordenado por:" />
+					<p:selectOneRadio id="orden" value="#{listadoLectoresBean.console}">
+						<f:selectItem itemLabel="Código" itemValue="1" />
+						<f:selectItem itemLabel="nombre" itemValue="2" />
+
+					</p:selectOneRadio>
+				</h:panelGrid>
+				
+				<p:dataTable id="lectorsTable"
+					value="#{listadoLectoresBean.lectoresFiltrados}" var="lector"
+					style="margin-top: 20px"
+					emptyMessage="No hay lectores encontrados." rows="20"
+					paginator="true" paginatorAlwaysVisible="false"
+					paginatorPosition="bottom">
+
+					<p:column headerText="Código"
+						style="text-align: center; width: 100px">
+						<h:outputText value="#{lector.codigo}" />
+					</p:column>
+
+					<p:column headerText="Nombre">
+						<h:outputText value="#{lector.nombre}" />
+					</p:column>
+					<p:column headerText="Cedula"
+						style="text-align: right; width: 120px">
+						<h:outputText value="#{lector.cedula}" />
+					</p:column>
+					<p:column headerText="Telefono"
+						style="text-align: right; width: 120px">
+						<h:outputText value="#{lector.telef}" />
+					</p:column>
+
+					<p:column headerText="Dirección"
+						style="text-align: right; width: 120px">
+						<h:outputText value="#{lector.direc}" />
+					</p:column>
+
+				</p:dataTable>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

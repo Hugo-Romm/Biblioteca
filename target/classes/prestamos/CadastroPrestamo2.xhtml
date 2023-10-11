@@ -1,0 +1,44 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<!-- <f:metadata>
+    		<o:viewParam name="prestamo" value="#{cadastroPrestamoBean.prestamo}" />
+    		<f:event listener="#{cadastroPrestamoBean.inicializar}" type="preRenderView" />
+    	</f:metadata> -->
+
+
+
+	<ui:define name="titulo">#{cadastroPrestamoBean.editando ? "Editando Prestamo" : "Nuevo Prestamo"}</ui:define>
+	<ui:define name="cuerpo">
+		<h:form>
+			<h1>#{cadastroPrestamoBean.editando ?"Editando Prestamo" :
+				"Nuevo Prestamo"}</h1>
+			<p:messages autoUpdate="true" closable="true" />
+
+
+			<ui:include src="/WEB-INF/template/prestamos/BotoesPrestamo.xhtml" />
+
+			<ui:include src="/WEB-INF/template/prestamos/CapaPrestamo.xhtml" />
+
+			<p:tabView style="margin-top: 20px">
+				<p:tab title="Libro solicitado">
+					<ui:include src="/WEB-INF/template/prestamos/ItensPrestamo.xhtml" />
+					</p:tab>
+				<p:tab title="Entrega">
+	    		<ui:include src="/WEB-INF/template/prestamos/DadosEntregaPrestamo.xhtml" />
+	    		</p:tab>
+				<p:tab title="Anotaciones Varias">
+					<ui:include src="/WEB-INF/template/prestamos/ObservacaoPrestamo.xhtml" />
+				</p:tab> 
+				<!-- <p:tab title="Pagos">
+					<ui:include src="/WEB-INF/template/prestamos/Pagamento.xhtml" />
+				</p:tab>  -->
+			</p:tabView>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="4" style="width: 100%" columnClasses="rotulo, campo, rotulo, campo">
+		<p:outputLabel value="Fecha limite de  entrega" for="dataEntrega" />
+		<p:calendar id="dataEntrega" size="10" pattern="dd/MM/yyyy" />
+		
+		<p:outputLabel value="Fecha efectiva entrega" for="dataEntregado" />
+		<p:calendar id="dataEntregado" size="10" pattern="dd/MM/yyyy" />
+        
+
+        <p:outputLabel value="Días de mora" for="diasMora" />
+        <p:inputText id="diasMora" size="4" />
+
+        <p:outputLabel value="Multa" for="multa" />
+        <p:inputText id="multa" size="10" />
+        <p:spacer />
+		<p:spacer />
+
+        <p:commandButton value="Cobrar" action="#{cadastroPrestamoBean.salvar}"
+  				update="@form" 
+  				disabled="#{cadastroPrestamoBean.prestamo.naoAlteravel}" />
+		
+<p:spacer />
+	
+        
+	</p:panelGrid>
+  	
+</ui:composition>

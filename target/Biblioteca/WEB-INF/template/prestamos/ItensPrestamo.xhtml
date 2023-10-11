@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dataTable value="#{cadastroTareaBean.tarea.itens}" var="item"
+		rowIndexVar="linha" id="tabelaItens">
+		<p:column headerText="ID" style="text-align: center; width: 100px">
+			<h:outputText value="#{item.requisito.id}"
+				rendered="#{item.requisitoAssociado}" />
+
+			<p:inputText size="8" value="#{item.requisito.id}" label="id"
+				rendered="#{not item.requisitoAssociado}">
+				<p:ajax event="change" process="@this" update="tabelaItens"
+					listener="#{cadastroTareaBean.carregarRequisitoPorId}" />
+			</p:inputText>
+		</p:column>
+		<p:column headerText="Requisito">
+			<h:outputText value="#{item.requisito.nome}"
+				rendered="#{item.requisitoAssociado}" />
+
+			<p:autoComplete styleClass="produto-tabela"
+				value="#{cadastroTareaBean.requisitoLinhaEditavel}"
+				completeMethod="#{cadastroTareaBean.completarRequisito}"
+				var="requisito" itemLabel="#{requisito.nome}"
+				itemValue="#{requisito}" forceSelection="true"
+				rendered="#{not item.requisitoAssociado}"
+				disabled="#{cadastroTareaBean.tarea.naoAlteravel}">
+				<p:ajax event="itemSelect" update="tabelaItens "
+					listener="#{cadastroTareaBean.carregarRequisitoLinhaEditavel}" />
+			</p:autoComplete>
+		</p:column>
+
+		<p:column headerText="Disponibilidad" style="text-align: center; width: 100px">
+			<h:outputText value="#{item.producto.cantidadStock}"
+				style="#{item.stockInsuficiente ? 'color: red' : ''}" />
+
+			<h:graphicImage library="images" name="alerta.png" id="semStock"
+				style="vertical-align: bottom; margin-left: 5px"
+				rendered="#{item.stockInsuficiente}" />
+
+			<p:tooltip for="semStock" value="Stock insuficiente"
+				rendered="#{item.stockInsuficiente}" />
+		</p:column>
+
+		<p:column headerText="Eliminar"
+			style="text-align: center; width: 50px">
+			<p:commandButton icon="ui-icon-closethick"
+				action="#{cadastroTareaBean.removerItem(item, linha)}"
+				process="@this" update="tabelaItens "
+				rendered="#{item.requisitoAssociado}"
+				disabled="#{cadastroTareaBean.tarea.naoAlteravel}" />
+		</p:column>
+
+
+
+		<p:columnGroup type="footer">
+			<p:row>
+				<p:column colspan="5" footerText=" " style="text-align: right" />
+				<p:column footerText="1.0" style="text-align: right" />
+			</p:row>
+		</p:columnGroup>
+	</p:dataTable>
+
+</ui:composition>

@@ -1,0 +1,66 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroCiudadBean.editando ? 'Modificar Ciudad' : 'Nueva Ciudad'}</ui:define>
+
+	<ui:define name="cuerpo">
+		<f:metadata>
+			<o:viewParam name="ciudad" value="#{cadastroCiudadBean.ciudad}" />
+			<f:event listener="#{cadastroCiudadBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form>
+
+			<h1>#{cadastroCiudadBean.editando ? 'Modificar Ciudad' :
+				'Nueva Ciudad'}</h1>
+
+			<p:messages autoUpdate="true" closable="true" />
+
+
+
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Nuevo" outcome="/ciudad/CadastroCiudad" />
+					<p:commandButton value="Guardar" id="botaoSalvar"
+						action="#{cadastroCiudadBean.salvar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Consulta" outcome="/ciudad/PesquisaCiudads" />
+				</p:toolbarGroup>
+0			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel" style=" margin-top: 20px"
+				columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Codigo" for="id" />
+				<p:inputText id="id" size="20" maxlength="20"
+					value="#{cadastroCiudadBean.ciudad.codigo}" disabled="true" />
+					
+				<p:outputLabel value="Descripción" for="descri" />
+				<p:inputText id="descri" size="50" maxlength="80"
+					value="#{cadastroCiudadBean.ciudad.descri}" />
+
+				<p:outputLabel value="Observación" />
+				<p:inputTextarea rows="3" cols="52" counter="display"
+					maxlength="200" counterTemplate="{0} caracteres restantes."
+					autoResize="false" value="#{cadastroCiudadBean.ciudad.obse}"/>
+				<h:outputText id="display" />
+
+
+			</p:panelGrid>
+			<!-- <p:inputText id="obse" size="50" maxlength="200"
+					value="#{cadastroCiudadBean.ciudad.obse}" /> -->
+			<!-- 				<p:outputLabel value="Codigo" for="codigo" /> -->
+
+			<!-- 				<p:inputText id="codigo" size="8" maxlength="8" -->
+			<!-- 				     value="#{cadastroCiudadBean.ciudad.codigo}" /> -->
+		</h:form>
+
+	</ui:define>
+</ui:composition>

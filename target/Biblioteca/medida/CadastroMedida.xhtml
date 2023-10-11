@@ -1,0 +1,66 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroMedidaBean.editando ? 'Modificar Medida' : 'Nueva Medida'}</ui:define>
+
+	<ui:define name="cuerpo">
+		<f:metadata>
+			<o:viewParam name="medida" value="#{cadastroMedidaBean.medida}" />
+			<f:event listener="#{cadastroMedidaBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form>
+
+			<h1>#{cadastroMedidaBean.editando ? 'Modificar Medida' :
+				'Nueva Medida'}</h1>
+
+			<p:messages autoUpdate="true" closable="true" />
+
+
+
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Nuevo" outcome="/medida/CadastroMedida" />
+					<p:commandButton value="Guardar" id="botaoSalvar"
+						action="#{cadastroMedidaBean.salvar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Consulta" outcome="/medida/PesquisaMedidas" />
+				</p:toolbarGroup>
+0			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel" style=" margin-top: 20px"
+				columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Codigo" for="id" />
+				<p:inputText id="id" size="20" maxlength="20"
+					value="#{cadastroMedidaBean.medida.codigo}" disabled="true" />
+					
+				<p:outputLabel value="Descripción" for="descri" />
+				<p:inputText id="descri" size="50" maxlength="80"
+					value="#{cadastroMedidaBean.medida.descri}" />
+
+				<p:outputLabel value="Observación" />
+				<p:inputTextarea rows="3" cols="52" counter="display"
+					maxlength="200" counterTemplate="{0} caracteres restantes."
+					autoResize="false" value="#{cadastroMedidaBean.medida.obse}"/>
+				<h:outputText id="display" />
+
+
+			</p:panelGrid>
+			<!-- <p:inputText id="obse" size="50" maxlength="200"
+					value="#{cadastroMedidaBean.medida.obse}" /> -->
+			<!-- 				<p:outputLabel value="Codigo" for="codigo" /> -->
+
+			<!-- 				<p:inputText id="codigo" size="8" maxlength="8" -->
+			<!-- 				     value="#{cadastroMedidaBean.medida.codigo}" /> -->
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,84 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroLibroBean.editando ? 'Modificar Libro' : 'Nuevo Libro'}</ui:define>
+
+	<ui:define name="cuerpo">
+		<f:metadata>
+			<o:viewParam name="libro" value="#{cadastroLibroBean.libro}" />
+			<f:event listener="#{cadastroLibroBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form>
+
+			<h1>#{cadastroLibroBean.editando ? 'Modificar Libro' : 'Nuevo
+				Libro'}</h1>
+
+			<p:messages autoUpdate="true" closable="true" />
+
+
+
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Nuevo" outcome="/libros/CadastroLibro" />
+					<p:commandButton value="Guardar" id="botaoSalvar"
+						action="#{cadastroLibroBean.salvar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Consulta" outcome="/libros/PesquisaLibros" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel" style=" margin-top: 20px"
+				columnClasses="rotulo, campo">
+				
+				<p:outputLabel value="Codigo" for="id" />
+				<p:inputText id="id" size="20" maxlength="20"
+					value="#{cadastroLibroBean.libro.codigo}" disabled="true" />
+
+				<p:outputLabel value="Descripción" for="descri" />
+				<p:inputText id="descri" size="100" maxlength="100"
+					value="#{cadastroLibroBean.libro.descri}" />
+					
+				<p:outputLabel value="Editorial" for="editor" />
+				<p:selectOneMenu id="editor"
+					value="#{cadastroLibroBean.libro.editor}">
+					<f:selectItem itemLabel="Seleccione la Editorial" />
+					<f:selectItems value="#{cadastroLibroBean.subeditores}"
+						var="editor" itemValue="#{codigo}"
+						itemLabel="#{editor.descri}" />
+
+				</p:selectOneMenu>
+
+
+				<p:outputLabel value="Autor" />
+				<p:inputTextarea rows="3" cols="52" counter="display"
+					maxlength="200" counterTemplate="{0} caracteres restantes."
+					autoResize="false" value="#{cadastroLibroBean.libro.autor}" />
+				<p:spacer/><h:outputText id="display" />
+				
+
+				<p:outputLabel value="Cod. ISBN" for="isbn" />
+				<p:inputText id="isbn" size="30" maxlength="30"
+					value="#{cadastroLibroBean.libro.isbn}" />
+
+				<p:outputLabel value="Observación" />
+				<p:inputTextarea rows="3" cols="52" counter="displa" maxlength="200"
+					counterTemplate="{0} caracteres restantes." autoResize="false"
+					value="#{cadastroLibroBean.libro.obse}" />
+				<p:spacer/><h:outputText id="displa" />
+				
+
+
+			</p:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

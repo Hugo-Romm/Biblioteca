@@ -1,0 +1,63 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{configBean.editando ? 'Editando Configuración' : 'Nueva Configuración'}</ui:define>
+
+	<ui:define name="cuerpo">
+		<f:metadata>
+			<o:viewParam name="config" value="#{configBean.config}" />
+			<f:event listener="#{configBean.inicializar}" type="preRenderView" />
+		</f:metadata>
+
+		<h:form>
+			<h1>#{configBean.editando ? 'Datos de la Empresa' : 'Datos de la
+				Empresa'}</h1>
+
+			<p:messages autoUpdate="true" closable="true" />
+
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+
+					<p:commandButton value="Actualizar" id="botaoSalvar"
+						action="#{configBean.salvar}" update="@form" />
+				</p:toolbarGroup>
+
+			</p:toolbar>
+
+
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+
+				<p:outputLabel value="Organización" for="nome" />
+				<p:inputText id="nome" size="100" maxlength="100"
+					value="#{configBean.config.organom}" />
+
+				<p:outputLabel value="Días a Prestar" for="diapres" />
+				<p:inputText id="diapres" size="3" maxlength="3"
+					value="#{configBean.config.diapre}" />
+
+				<p:outputLabel value="Límite de Espera" for="limite" />
+				<p:inputText id="limite" size="3" maxlength="3"
+					value="#{configBean.config.diamor}" />
+
+				<p:outputLabel value="Interés por Día" for="monto" />
+				<p:inputText id="monto" size="10" maxlength="10"
+					value="#{configBean.config.deumon}" />
+
+				<p:outputLabel value="Contraseña" for="seña" />
+				<p:inputText id="seña" size="50" maxlength="50" type="password"
+					value="#{configBean.config.seña}" />
+
+			</p:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,85 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Empresa: #{confifi.nomeEmpresa}. </ui:define>
+
+	<ui:define name="cuerpo">
+		<h:form id="frm">
+
+
+			<p:messages autoUpdate="true" closable="true" />
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Procesar"
+						action="#{listadoDeudasBean.pesquisaPorLector}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup>
+					<p:commandButton value="Detallado" type="button"
+						icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+						<p:printer target="libr" />
+					</p:commandButton>
+				</p:toolbarGroup>
+
+
+
+			</p:toolbar>
+			<h:panelGrid id="libr" columns="1" style="width: 100%">
+				<h1>Informe Detallado por Lector</h1>
+				<p:panelGrid columns="4" id="painel"
+					style="width: 100%; margin-top: 20px ;float:left"
+					columnClasses="rotulo, campo">
+					<p:outputLabel value="Número" />
+					<h:panelGroup>
+						<p:outputLabel value="" for="id" />
+						<p:inputText id="id" size="8"
+							value="#{listadoDeudasBean.codigoInicio}" />
+						<p:spacer width="8" />
+						<h:outputText value="a" />
+						<p:spacer width="8" />
+						<p:outputLabel value="" for="id221" />
+						<p:inputText id="id221" size="8"
+							value="#{listadoDeudasBean.codigoFin}" />
+					</h:panelGroup>
+				</p:panelGrid>
+
+				<p:dataTable id="deudasTable"
+					value="#{listadoDeudasBean.deudasFiltrados}" var="deuda"
+					style="margin-top: 20px" emptyMessage="No hay deudas encontradas."
+					rows="20" paginator="true" paginatorAlwaysVisible="false"
+					paginatorPosition="bottom">
+
+					<p:column headerText="Lector">
+						<h:outputText value="#{deuda.lector.nombre}" />
+					</p:column>
+
+				
+					<p:summaryRow>
+						<p:column colspan="3" style="text-align:right">
+							<h:outputText value="Monto a pagar:" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{deuda.monto}">
+								<f:convertNumber type="currency" currencySymbol="$" />
+							</h:outputText>
+						</p:column>
+					</p:summaryRow>
+				</p:dataTable>
+				<p:panelGrid columns="4" id="painell"
+					style="width: 100%;float:rigth" columnClasses="rotulo, campo">
+					<p:outputLabel value="Total Deudas" />
+					<h:panelGroup>
+						<p:outputLabel value="" for="idtotal" />
+						<p:inputText id="idtotal" size="15"
+							value="#{listadoDeudasBean.montoTotal}" />
+
+					</h:panelGroup>
+				</p:panelGrid>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

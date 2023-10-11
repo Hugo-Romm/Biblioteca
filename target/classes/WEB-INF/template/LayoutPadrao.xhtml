@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><ui:insert name="titulo">Biblioteca Sis</ui:insert></title>
+	<h:outputStylesheet library="css" name="sistema.css" />
+</h:head>
+
+<h:body>
+	<p:ajaxStatus styleClass="ajax-status" onsuccess="configurarMoeda()">
+		<f:facet name="start">
+<!-- 			<h:graphicImage library="images" name="loading.gif" /> -->
+		</f:facet>
+		<f:facet name="complete">
+			<h:outputText value="" />
+		</f:facet>
+	</p:ajaxStatus>
+	<header>
+	<div style="float: left">
+		<h:link outcome="/Home">
+			<h:graphicImage library="images" name="bibli.png" />
+		</h:link>
+	</div>
+	<div style="float: right; margin-right: 110px">
+	    <f:metadata>
+    		<o:viewParam name="config" value="#{configBean.config}" />
+    		<f:event listener="#{configBean.inicializar}" type="preRenderView" />
+    	</f:metadata>
+		<span style="float: left; height: 30px; line-height: 30px; margin-right: 60px">
+			Usuario: #{seguranca.nomeUsuario}. </span>
+			
+		<span style="float: left; height: 30px; line-height: 30px; margin-right: 60px" >
+			Empresa: #{confifi.nomeEmpresa}. </span>
+			
+			
+
+		<h:form style="display: inline-block">
+			<p:menubar styleClass="menu-sistema">
+				<p:submenu label="Procesos">
+					<p:menuitem value="Registrar Préstamos" outcome="/prestamos/CadastroPrestamo"/>
+					
+					<p:separator />
+				</p:submenu>
+				<p:submenu label="Tablas">
+					<p:menuitem value="Libros" outcome="/libros/CadastroLibro"/>
+					<p:menuitem value="Lector" outcome="/lectores/CadastroLector"/>
+					<p:menuitem value="Editorial" outcome="/editors/CadastroEditor" />
+					<p:menuitem value="Ciudad" outcome="/ciudad/CadastroCiudad" />
+					<p:menuitem value="Medida" outcome="/medida/CadastroMedida" />
+					
+					
+				</p:submenu>
+
+				<p:submenu label="Informes">
+					<p:menuitem value="Listado de Libros" outcome="/libros/RelatorioLibros" />
+					<p:menuitem value="Listado de Lector" outcome="/lectores/RelatorioLector" />
+					<p:menuitem value="Listado de Editorial" outcome="/editors/RelatorioEditorial"/>
+					<p:menuitem value="Informe de Préstamos" outcome="/relatorios/RelatorioPedidosEmitidos"  />
+					<p:menuitem value="Informe de Deudas" outcome="/relatorios/RelatorioDeudas" />
+				</p:submenu>
+
+				<p:submenu label="Utilidades">
+					<p:menuitem value="Inicialización de Datos" outcome="/inicializarBD/limpiaBD" />
+					<p:menuitem value="Configuraciones" outcome="/config/Config.xhtml?config=1" />
+				</p:submenu>
+
+				<p:menuitem value="Salir" url="/j_spring_security_logout" />
+			</p:menubar>
+
+			
+		</h:form>
+	</div>
+	<div style="clear: both"></div>
+	</header>
+		<!-- BARRA DE HERRAMIENTAS	 --> 
+			 <p:toolbar style=" width: 99% ; heigth:40px" >
+				<p:toolbarGroup >
+				   
+					<h:link style="padding-right:3px ;padding-left:3px" outcome="/prestamos/CadastroPrestamo">
+						<h:graphicImage library="images" name="pres.png" title="Préstamos"></h:graphicImage> 
+			        </h:link>
+		            
+		            <h:link style="padding-right:3px ;padding-left:3px" outcome="/libros/CadastroLibro">
+			             <h:graphicImage library="images" name="Libros_1.png" title="Libros" />
+		            </h:link>
+		            
+					<h:link style="padding-right:3px ;padding-left:3px" outcome="/lectores/CadastroLector">
+			             <h:graphicImage library="images" name="lector_1.png" title="Lector"/>
+		            </h:link>
+					
+<!-- 					<h:link outcome="/Login" >
+			             <h:graphicImage library="images" name="salsa.png" title="Salir del sistema"/>
+		            </h:link> -->
+		           
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			
+	<div id="contenido">
+		<ui:insert name="cuerpo" />
+	</div>
+
+	<!-- <p:separator style="margin-top: 370px" /> -->
+
+
+	<footer> Sistema Control de Biblioteca
+<!-- 		<a href="http://www.biblioteca.gov.py" target="_blank">www.biblioteca.gov.py</a> -->
+	<div id="patata" align="center">Versión 1.11</div>
+	</footer>
+	
+</h:body>
+</html>

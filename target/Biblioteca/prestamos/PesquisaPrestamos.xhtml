@@ -1,0 +1,122 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroBean.editando ? 'Editar  prestamos' : 'Nuevo prestamo'}</ui:define>
+
+	<ui:define name="cuerpo">
+		<h:form id="frmPesquisa">
+			<h1>Consulta de prestamos</h1>
+
+			<p:messages autoUpdate="true" closable="true" />
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Consultar"
+						action="#{pesquisaPrestamosBean.pesquisar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Nuevo" outcome="/prestamos/CadastroPrestamo" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+
+				<p:outputLabel value="Número de Prestamo" for="descri" />
+				<p:inputText id="descri" size="60"
+					value="#{pesquisaPrestamosBean.filtro.numero}" />
+
+
+			</p:panelGrid>
+
+			<p:dataTable id="prestamosTable"
+				value="#{pesquisaPrestamosBean.prestamosFiltrados}" var="prestamo"
+				style="margin-top: 20px"
+				emptyMessage="No hay prestamos encontrados." rows="20"
+				paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+				<p:column headerText="Codigo"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{prestamo.numero}" />
+				</p:column>
+				<p:column headerText="Lector">
+					<h:outputText value="#{prestamo.lector.nombre}" />
+				</p:column>
+
+				<p:column headerText="Libro"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{prestamo.libro.descri}" />
+				</p:column>
+				<p:column headerText="Ejemplar"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{prestamo.nroeje}" />
+				</p:column>
+				<p:column headerText="Fecha de Préstamo"
+					style="text-align: center; width: 50px">
+					<h:outputText value="#{prestamo.fecpre}" />
+				</p:column>
+				<p:column headerText="Fecha Recuperación"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{prestamo.fecrec}" />
+				</p:column>
+
+
+				<p:column style="width: 100px; text-align: center">
+
+					<p:button outcome="/prestamos/CadastroPrestamo"
+						icon="ui-icon-pencil" title="a Editar">
+						<f:param name="prestamo" value="#{prestamo.numero}" />
+					</p:button>
+
+					<p:commandButton icon="ui-icon-check" title="Devolver"
+						oncomplete="confirmacaoDevolucion.show()" process="@this"
+						update=":frmPesquisa:confirmacaoDevolucionDialog">
+						<f:setPropertyActionListener
+							target="#{pesquisaPrestamosBean.prestamoSelecionado}"
+							value="#{prestamo}" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="confirmacaoExclusao.show()" process="@this"
+						update=":frmPesquisa:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener
+							target="#{pesquisaPrestamosBean.prestamoSelecionado}"
+							value="#{prestamo}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog header="Devolver"
+				message="Desea devolver Prestamo #{pesquisaPrestamosBean.prestamoSelecionado.numero} - #{pesquisaPrestamosBean.prestamoSelecionado.lector.nombre}?"
+				widgetVar="confirmacaoDevolucion" id="confirmacaoDevolucionDialog">
+				<p:outputLabel value="Fecha de Recuperacion" for="fecrecu" />
+				<p:calendar id="fecrecu"
+					value="#{pesquisaPrestamosBean.fecrec}"
+					pattern="dd/MM/yyyy" readonlyInput="true" navigator="true"
+					pages="1" mode="popup" maxdate="#{pesquisaPrestamoBean.fechaHoy}"
+					locale="es">
+
+				</p:calendar>
+				<p:button value="No"
+					onclick="confirmacaoDevolucion.hide(); return false;" />
+				<p:commandButton value="Si"
+					oncomplete="confirmacaoDevolucion.hide();"
+					action="#{pesquisaPrestamosBean.devolver}" process="@this"
+					update=":frmPesquisa:prestamosTable" />
+			</p:confirmDialog>
+			<p:confirmDialog header="Excluir"
+				message="Seguro desea eliminar  Prestamo #{pesquisaPrestamosBean.prestamoSelecionado.numero} - #{pesquisaPrestamosBean.prestamoSelecionado.lector.nombre}?"
+				widgetVar="confirmacaoExclusao" id="confirmacaoExclusaoDialog">
+				<p:button value="No"
+					onclick="confirmacaoExclusao.hide(); return false;" />
+				<p:commandButton value="Si" oncomplete="confirmacaoExclusao.hide();"
+					action="#{pesquisaPrestamosBean.excluir}" process="@this"
+					update=":frmPesquisa:prestamosTable" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

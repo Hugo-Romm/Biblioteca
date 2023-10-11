@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="4" style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo, rotulo, campo">
+		<p:outputLabel value="Número" rendered="#{cadastroPrestamoBean.prestamo.existente}" />
+		<h:outputText value="#{cadastroPrestamoBean.prestamo.id}" rendered="#{cadastroPrestamoBean.prestamo.existente}" />
+		
+		<p:outputLabel value="Fecha de prestamo"  />
+        <h:outputText value="#{cadastroPrestamoBean.prestamo.dataCriacao}" >
+        	<f:convertDateTime pattern="dd/MM/yyyy" />
+        </h:outputText>
+        
+        <p:outputLabel value="Estado"/>
+        <h:outputText value="#{cadastroPrestamoBean.prestamo.status.descricao}" />
+        
+        
+        
+        <p:outputLabel value="Lector" for="lector"/>
+        <p:autoComplete id="lector" size="50" dropdown="true" 
+        
+        	value="#{cadastroPrestamoBean.prestamo.lector}" 
+        	
+        	completeMethod="#{cadastroPrestamoBean.completarLector}"
+        	var="lector" itemLabel="#{lector.nombre}" itemValue="#{lector}" forceSelection="true"
+        	disabled="#{cadastroPrestamoBean.prestamo.naoAlteravel}" />
+        
+		<p:spacer />
+        	
+       <!-- <p:outputLabel value="Forma de pedido" for="formaPedido"/>
+        <p:selectOneMenu id="formaPedido" value="#{cadastroPrestamoBean.prestamo.formaPedido}"
+        disabled="#{cadastroPrestamoBean.prestamo.naoAlteravel}" >
+            <f:selectItem itemLabel="Seleccione" />
+            <f:selectItems value="#{cadastroPrestamoBean.formasPedido}" var="formaPedido"
+            	itemValue="#{formaPedido}" itemLabel="#{formaPedido.descricao}" />
+        </p:selectOneMenu>
+         -->
+        
+        
+	</p:panelGrid>
+  	
+</ui:composition>

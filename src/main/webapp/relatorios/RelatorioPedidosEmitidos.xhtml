@@ -1,0 +1,114 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Empresa: #{confifi.nomeEmpresa}. </ui:define>
+
+	<ui:define name="cuerpo">
+		<h:form id="frm">
+			
+
+			<p:messages autoUpdate="true" closable="true" />
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Procesar"
+						action="#{pesquisaPrestamosBean1.pesquisar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup>
+					<p:commandButton value="Detallado" type="button"
+						icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+						<p:printer target="pres" />
+						</p:commandButton>
+				</p:toolbarGroup>
+			</p:toolbar>
+			<h:panelGrid id="pres" columns="1" style="width: 100%" >
+			<h1>Informe de prestamos registrados</h1>
+			<p:panelGrid columns="2" id="painel"
+				style="width: 60%; margin-top: 20px ;float:left" columnClasses="rotulo, campo">
+				<p:outputLabel value="Rango de Fecha" />
+				<h:panelGroup>
+					<p:calendar value="#{pesquisaPrestamosBean1.dataInicio}"
+						label="Fecha de inicio" pattern="dd/MM/yyyy" size="8" />
+					<p:spacer width="8" />
+					<h:outputText value="a" />
+					<p:spacer width="8" />
+					<p:calendar value="#{pesquisaPrestamosBean1.dataFim}"
+						label="Ultima Fecha de registro" pattern="dd/MM/yyyy" size="8" />
+				</h:panelGroup>
+
+				<p:outputLabel value="Lector" />
+				<h:panelGroup>
+					<p:outputLabel value="" for="id" />
+					<p:inputText id="id" size="8"
+						 value="#{pesquisaPrestamosBean1.lectorInicio}"/>
+					<p:spacer width="8" />
+					<h:outputText value="a" />
+					<p:spacer width="8" />
+					<p:outputLabel value="" for="id222" />
+					<p:inputText id="id222" size="8"
+						value="#{pesquisaPrestamosBean1.lectorFin}" />
+				</h:panelGroup>
+				<p:outputLabel value="Libro" />
+				<h:panelGroup>
+					<p:outputLabel value="" for="id1" />
+					<p:inputText id="id1" size="8"
+						 value="#{pesquisaPrestamosBean1.libroInicio}"/>
+					<p:spacer width="8" />
+					<h:outputText value="a" />
+					<p:spacer width="8" />
+					<p:outputLabel value="" for="id223" />
+					<p:inputText id="id223" size="8"
+						value="#{pesquisaPrestamosBean1.libroFin}" />
+				</h:panelGroup>
+
+			</p:panelGrid>
+			<h:panelGrid columns="1"
+				style="width: 40%; margin-top: 20px ;float:left" >
+			    
+       		    <p:outputLabel for="filtrar" value="Filtrar por : " />
+      			<p:selectOneRadio id="filtrar" value="#{pesquisaPrestamosBean1.console}">
+      				 <f:selectItem itemLabel="Todos" itemValue="1" />
+                     <f:selectItem itemLabel="Prestados" itemValue="2" />
+                     <f:selectItem itemLabel="Devueltos" itemValue="3" />
+                     
+                </p:selectOneRadio>
+    		</h:panelGrid>
+			<p:dataTable id="prestamosTable"
+				value="#{pesquisaPrestamosBean1.prestamosFiltrados}" var="prestamo"
+				style="margin-top: 20px"
+				emptyMessage="No hay prestamos encontrados." rows="20"
+				paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+				<p:column headerText="Codigo"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{prestamo.numero}" />
+				</p:column>
+				<p:column headerText="Lector">
+					<h:outputText value="#{prestamo.lector.nombre}" />
+				</p:column>
+
+				<p:column headerText="Libro"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{prestamo.libro.descri}" />
+				</p:column>
+				<p:column headerText="Ejemplar"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{prestamo.nroeje}" />
+				</p:column>
+				<p:column headerText="Fecha de Préstamo"
+					style="text-align: center; width: 50px">
+					<h:outputText value="#{prestamo.fecpre}" />
+				</p:column>
+				<p:column headerText="Fecha Recuperación"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{prestamo.fecrec}" />
+				</p:column>
+			</p:dataTable>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

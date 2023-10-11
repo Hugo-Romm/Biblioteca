@@ -1,0 +1,114 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Empresa: #{confifi.nomeEmpresa}. </ui:define>
+
+	<ui:define name="cuerpo">
+		<h:form id="frm">
+			
+
+			<p:messages autoUpdate="true" closable="true" />
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Procesar"
+						action="#{listadoLibrosBean.pesquisar}" update="@form" />
+				</p:toolbarGroup>
+				
+				<p:toolbarGroup>
+					<p:commandButton value="Detallado" type="button" icon="ui-icon-print" 
+					style="display:block;margin-bottom: 20px">
+                    <p:printer target="libr" />
+                    </p:commandButton>
+				
+				</p:toolbarGroup>
+
+			</p:toolbar>
+			<h:panelGrid id="libr" columns="1" style="width: 100%" >
+			<h1>Listado de libros registrados</h1>
+			<p:panelGrid columns="2" id="painel"
+				style="width: 60%; margin-top: 20px ;float:left" columnClasses="rotulo, campo">
+				<p:outputLabel value="Código" />
+				<h:panelGroup>
+					<p:outputLabel value="" for="id" />
+					<p:inputText id="id" size="8"
+						value="#{listadoLibrosBean.codigoInicio}" />
+					<p:spacer width="8" />
+					<h:outputText value="a" />
+					<p:spacer width="8" />
+					<p:outputLabel value="" for="id221" />
+					<p:inputText id="id221" size="8"
+						value="#{listadoLibrosBean.codigoFin}" />
+				</h:panelGroup>
+				<p:outputLabel value="Libro" />
+				<h:panelGroup>
+					<p:outputLabel value="" for="id1" />
+					<p:inputText id="id1" size="8"
+						value="#{listadoLibrosBean.descriInicio}" />
+					<p:spacer width="8" />
+					<h:outputText value="a" />
+					<p:spacer width="8" />
+					<p:outputLabel value="" for="id222" />
+					<p:inputText id="id222" size="8"
+						value="#{listadoLibrosBean.descriFin}" />
+				</h:panelGroup>
+				<p:outputLabel value="Editorial" />
+				<h:panelGroup>
+					<p:outputLabel value="" for="id3" />
+					<p:inputText id="id3" size="8"
+						value="#{listadoLibrosBean.editoInicio}" />
+					<p:spacer width="8" />
+					<h:outputText value="a" />
+					<p:spacer width="8" />
+					<p:outputLabel value="" for="id223" />
+					<p:inputText id="id223" size="8"
+						value="#{listadoLibrosBean.editoFin}" />
+				</h:panelGroup>
+
+			</p:panelGrid>
+		    <h:panelGrid columns="1"
+				style="width: 40%; margin-top: 20px ;float:left" >
+			    
+       		    <p:outputLabel for="orden" value="Ordenado por:" />
+      			<p:selectOneRadio id="orden" value="#{listadoLibrosBean.console}">
+                     <f:selectItem itemLabel="Código" itemValue="1" />
+                     <f:selectItem itemLabel="Descripción" itemValue="2" />
+                     <f:selectItem itemLabel="Editorial" itemValue="3" />
+                </p:selectOneRadio>
+    		</h:panelGrid>
+			<p:dataTable id="librosTable" value="#{listadoLibrosBean.librosFiltrados}" var="libro"
+				style="margin-top: 20px" emptyMessage="No hay libros encontrados."
+				rows="20" paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+				<p:column headerText="Código"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{libro.codigo}" />
+				</p:column>
+
+				<p:column headerText="Libro">
+					<h:outputText value="#{libro.descri}" />
+				</p:column>
+				<p:column headerText="Autor" style="text-align: right; width: 120px">
+					<h:outputText value="#{libro.autor}" />
+				</p:column>
+				<p:column headerText="Editorial"
+					style="text-align: right; width: 120px">
+					<h:outputText value="#{libro.editor.descri}" />
+				</p:column>
+				<p:column headerText="Isbn" style="text-align: right; width: 120px">
+					<h:outputText value="#{libro.isbn}" />
+				</p:column>
+				<p:column headerText="Observación"
+					style="text-align: right; width: 120px">
+					<h:outputText value="#{libro.obse}" />
+				</p:column>
+
+			</p:dataTable>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

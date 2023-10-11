@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_pedidos_emitidos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="45b3ca34-17f2-4de5-887e-a5c338c28ef3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="data_inicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="data_fim" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numero_inicio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numero_fin" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parametro_nombre" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     lector."codigo" AS lector_codigo,
+     lector."cedula" AS lector_cedula,
+     lector."direc" AS lector_direc,
+     lector."nombre" AS lector_nombre,
+     lector."telef" AS lector_telef,
+     libro."codigo" AS libro_codigo,
+     libro."autor" AS libro_autor,
+     libro."descri" AS libro_descri,
+     libro."isbn" AS libro_isbn,
+     libro."obse" AS libro_obse,
+     libro."editor_codigo" AS libro_editor_codigo,
+     prestamo."numero" AS prestamo_numero,
+     prestamo."fecdev" AS prestamo_fecdev,
+     prestamo."fecpre" AS prestamo_fecpre,
+     prestamo."fecrec" AS prestamo_fecrec,
+     prestamo."nroejem" AS prestamo_nroejem,
+     prestamo."lector_codigo" AS prestamo_lector_codigo,
+     prestamo."libro_codigo" AS prestamo_libro_codigo,
+     prestamo."status" AS prestamo_status
+FROM
+     "public"."lector" lector INNER JOIN "public"."prestamo" prestamo ON lector."codigo" = prestamo."lector_codigo"
+     INNER JOIN "public"."libro" libro ON prestamo."libro_codigo" = libro."codigo"
+WHERE
+     prestamo."fecpre" BETWEEN $P{data_inicio} and $P{data_fim}
+ AND prestamo."numero" BETWEEN $P{numero_inicio} and $P{numero_fin}
+ AND lector."nombre" LIKE $P{parametro_nombre}]]>
+	</queryString>
+	<field name="lector_codigo" class="java.lang.Long"/>
+	<field name="lector_cedula" class="java.lang.Integer"/>
+	<field name="lector_direc" class="java.lang.String"/>
+	<field name="lector_nombre" class="java.lang.String"/>
+	<field name="lector_telef" class="java.lang.String"/>
+	<field name="libro_codigo" class="java.lang.Long"/>
+	<field name="libro_autor" class="java.lang.String"/>
+	<field name="libro_descri" class="java.lang.String"/>
+	<field name="libro_isbn" class="java.lang.String"/>
+	<field name="libro_obse" class="java.lang.String"/>
+	<field name="libro_editor_codigo" class="java.lang.Long"/>
+	<field name="prestamo_numero" class="java.lang.Long"/>
+	<field name="prestamo_fecdev" class="java.sql.Date"/>
+	<field name="prestamo_fecpre" class="java.sql.Date"/>
+	<field name="prestamo_fecrec" class="java.sql.Date"/>
+	<field name="prestamo_nroejem" class="java.lang.Integer"/>
+	<field name="prestamo_lector_codigo" class="java.lang.Long"/>
+	<field name="prestamo_libro_codigo" class="java.lang.Long"/>
+	<field name="prestamo_status" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="31" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="12" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="2" width="100" height="20" uuid="f98771bd-00d8-4849-8f3b-924cb7ce8926"/>
+				<text><![CDATA[lector_codigo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="137" y="2" width="100" height="20" uuid="19398c08-c76c-4ff2-bd16-eb8442131e01"/>
+				<text><![CDATA[lector_nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="265" y="2" width="100" height="20" uuid="ddf426b0-b3f8-41aa-82f7-fc1460109b3f"/>
+				<text><![CDATA[prestamo_numero]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="2" width="100" height="20" uuid="0dd11ddc-6917-4616-abae-3e8ae1ef3125"/>
+				<text><![CDATA[prestamo_fecpre]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement x="20" y="7" width="100" height="20" uuid="9ce954a8-1bd8-440a-a1c6-b31b8422f993"/>
+				<textFieldExpression><![CDATA[$F{lector_codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="137" y="7" width="100" height="20" uuid="c484e3d7-6ea5-4a3b-847c-32e03e066130"/>
+				<textFieldExpression><![CDATA[$F{lector_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="265" y="5" width="100" height="20" uuid="a3bba1d4-dc37-4128-b584-fc7a1cf03070"/>
+				<textFieldExpression><![CDATA[$F{prestamo_numero}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="398" y="6" width="100" height="20" uuid="244d66f4-57be-44b4-9fca-395b933ecf76"/>
+				<textFieldExpression><![CDATA[$F{prestamo_fecpre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

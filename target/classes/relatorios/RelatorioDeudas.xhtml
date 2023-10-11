@@ -1,0 +1,135 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Empresa: #{confifi.nomeEmpresa}. </ui:define>
+
+	<ui:define name="cuerpo">
+		<h:form id="frm">
+
+
+			<p:messages autoUpdate="true" closable="true" />
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Procesar"
+						action="#{listadoDeudasBean.pesquisar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup>
+					<p:button value="Informe por Lector" outcome="/relatorios/RelatorioPorLector"/>
+				</p:toolbarGroup>
+				<p:toolbarGroup>
+					<p:commandButton value="Detallado" type="button"
+						icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+						<p:printer target="libr" />
+					</p:commandButton>
+
+				</p:toolbarGroup>
+
+			</p:toolbar>
+			<h:panelGrid id="libr" columns="1" style="width: 100%">
+				<h1>Listado de Deudas registradas</h1>
+				<p:panelGrid columns="2" id="painel"
+					style="width: 60%; margin-top: 20px ;float:left"
+					columnClasses="rotulo, campo">
+					<p:outputLabel value="Código" />
+					<h:panelGroup>
+						<p:outputLabel value="" for="id" />
+						<p:inputText id="id" size="8"
+							value="#{listadoDeudasBean.codigoInicio}" />
+						<p:spacer width="8" />
+						<h:outputText value="a" />
+						<p:spacer width="8" />
+						<p:outputLabel value="" for="id221" />
+						<p:inputText id="id221" size="8"
+							value="#{listadoDeudasBean.codigoFin}" />
+					</h:panelGroup>
+					<p:outputLabel value="Lector" />
+					<h:panelGroup>
+						<p:outputLabel value="" for="id1" />
+						<p:inputText id="id1" size="8"
+							value="#{listadoDeudasBean.descriInicio}" />
+						<p:spacer width="8" />
+						<h:outputText value="a" />
+						<p:spacer width="8" />
+						<p:outputLabel value="" for="id222" />
+						<p:inputText id="id222" size="8"
+							value="#{listadoDeudasBean.descriFin}" />
+					</h:panelGroup>
+
+					<p:outputLabel value="Prestamo" />
+					<h:panelGroup>
+						<p:outputLabel value="" for="id3" />
+						<p:inputText id="id3" size="8"
+							value="#{listadoDeudasBean.codigoInicio1}" />
+						<p:spacer width="8" />
+						<h:outputText value="a" />
+						<p:spacer width="8" />
+						<p:outputLabel value="" for="id223" />
+						<p:inputText id="id223" size="8"
+							value="#{listadoDeudasBean.codigoFin1}" />
+					</h:panelGroup>
+					<p:outputLabel value="Libro" />
+					<h:panelGroup>
+						<p:outputLabel value="" for="id4" />
+						<p:inputText id="id4" size="8"
+							value="#{listadoDeudasBean.libroInicio}" />
+						<p:spacer width="8" />
+						<h:outputText value="a" />
+						<p:spacer width="8" />
+						<p:outputLabel value="" for="id224" />
+						<p:inputText id="id224" size="8"
+							value="#{listadoDeudasBean.libroFin}" />
+					</h:panelGroup>
+				</p:panelGrid>
+				<h:panelGrid columns="1"
+					style="width: 40%; margin-top: 20px ;float:left">
+
+					<p:outputLabel for="orden" value="Ordenado por:" />
+					<p:selectOneRadio id="orden" value="#{listadoDeudasBean.console}">
+						<f:selectItem itemLabel="numero" itemValue="1" />
+						<f:selectItem itemLabel="Lector" itemValue="2" />
+						<f:selectItem itemLabel="Prestamo" itemValue="3" />
+					</p:selectOneRadio>
+				</h:panelGrid>
+				<p:dataTable id="deudasTable"
+					value="#{listadoDeudasBean.deudasFiltrados}" var="deuda"
+					style="margin-top: 20px" emptyMessage="No hay deudas encontradas."
+					rows="20" paginator="true" paginatorAlwaysVisible="false"
+					paginatorPosition="bottom">
+					<p:column headerText="Número"
+						style="text-align: center; width: 100px">
+						<h:outputText value="#{deuda.num}" />
+					</p:column>
+
+					<p:column headerText="Lector">
+						<h:outputText value="#{deuda.lector.nombre}" />
+					</p:column>
+					<p:column headerText="Libro">
+						<h:outputText value="#{deuda.prestamo.libro.descri}" />
+					</p:column>
+					<p:column headerText="Prestamo"
+						style="text-align: right; width: 120px">
+						<h:outputText value="#{deuda.prestamo}" />
+					</p:column>
+					<p:column headerText="Monto a pagar"
+						style="text-align: right; width: 120px">
+						<h:outputText value="#{deuda.monto}" />
+					</p:column>
+					<p:column headerText="Monto pagado"
+						style="text-align: right; width: 120px">
+						<h:outputText value="#{deuda.pagado}" />
+					</p:column>
+
+
+				</p:dataTable>
+			</h:panelGrid>
+
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>

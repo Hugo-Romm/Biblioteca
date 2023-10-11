@@ -1,0 +1,54 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Inicialización de datos </ui:define>
+
+	<ui:define name="cuerpo">
+		<f:metadata>
+
+			<f:event listener="#{limpiarTablaBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form>
+
+			<h1>Inicializar Sistema</h1>
+
+			<p:messages autoUpdate="true" closable="true" />
+
+			<h:form id="frm" prependId="false">
+
+
+
+				<h:panelGrid columns="2" styleClass="grid-login1">
+					<p:outputLabel value="Usuario" />
+					<p:inputText size="30" id="j_username" value="#{loginBean.email}"
+						disabled="true" />
+
+					<p:outputLabel value="Clave" for="id" />
+					<p:inputText id="id" size="8" value="#{limpiarTablaBean.señaVeri}" type="password" />
+					<h:panelGroup />
+					<p:commandButton value="Aceptar"
+						action="#{limpiarTablaBean.verificaSeña}" update="@form" styleClass="grid-login1_btn" />
+
+					<h:outputText id="display" />
+					<p:commandButton value="Limpieza Parcial"
+						action="#{limpiarTablaBean.parcial1}"
+						styleClass="grid-login1_btn1" />
+					<h:outputText id="displa" />
+					<p:commandButton value="Limpieza Total"
+						action="#{limpiarTablaBean.total1}" styleClass="grid-login1_btn1" />
+				</h:panelGrid>
+
+
+			</h:form>
+
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

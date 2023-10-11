@@ -1,0 +1,101 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroEditorBean.editando ? 'Editar  editors' : 'Nuevo editor'}</ui:define>
+
+	<ui:define name="cuerpo">
+		<h:form id="frmPesquisa">
+			<h1>Consulta de Editoriales (#{cadastroEditorBean.cantidad}) </h1>
+
+			<p:messages autoUpdate="true" closable="true" />
+
+
+			<!-- TOOLBAR 1 -->
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Consultar"
+						action="#{cadastroEditorBean.pesquisar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Limpiar" outcome="/editors/PesquisaEditors" />
+					
+					<p:commandButton value="Detallado" type="button" icon="ui-icon-print" >
+                    <p:printer target="libr" />
+                    
+                    </p:commandButton>
+					<p:button value="Nuevo"   outcome="/editors/CadastroEditor" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+
+			<!-- GRID DE CONSULTA -->
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+
+				<p:outputLabel value="Filtro de Descripción" for="descri" />
+				<p:inputText id="descri" size="80"
+					value="#{cadastroEditorBean.filtro.descri}" />
+
+			</p:panelGrid>
+
+			<!-- TABLA POST CONSULTA  -->
+			
+			<h:panelGrid id="libr" columns="1" style="width: 100%" >
+				<h1>Listado de Editores</h1>			
+				<p:dataTable id="editorsTable"
+					value="#{cadastroEditorBean.editorsFiltrados}" var="editor"
+					style="margin-top: 20px" emptyMessage="No hay editoriales encontradas."
+					rows="20" paginator="true" paginatorAlwaysVisible="false"
+					paginatorPosition="bottom">
+	
+	
+					<p:column headerText="Código"
+						style="text-align: center; width: 100px">
+						<h:outputText value="#{editor.codigo}" />
+					</p:column>
+	
+					<p:column headerText="Editorial">
+						<h:outputText value="#{editor.descri}" />
+					</p:column>
+	
+					<p:column headerText="Observación"
+						style="text-align: right; width: 120px">
+						<h:outputText value="#{editor.obse}" />
+					</p:column>
+	
+					<p:column style="width: 100px; text-align: center">
+	
+						<p:button outcome="/editors/CadastroEditor" icon="ui-icon-pencil"
+							title="Editar">
+							<f:param name="editor" value="#{editor.codigo}" />
+						</p:button>
+	
+						<p:commandButton icon="ui-icon-trash" title="Excluir"
+							oncomplete="confirmacaoExclusao.show()" process="@this"
+							update=":frmPesquisa:confirmacaoExclusaoDialog">
+							<f:setPropertyActionListener
+								target="#{cadastroEditorBean.editorSelecionado}"
+								value="#{editor}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+    		</h:panelGrid>			
+			
+
+			<p:confirmDialog header="Excluir"
+				message="Seguro desea eliminar  #{cadastroEditorBean.editorSelecionado.codigo} - #{cadastroEditorBean.editorSelecionado.descri}?"
+				widgetVar="confirmacaoExclusao" id="confirmacaoExclusaoDialog">
+				<p:button value="No"
+					onclick="confirmacaoExclusao.hide(); return false;" />
+				<p:commandButton value="Si" oncomplete="confirmacaoExclusao.hide();"
+					action="#{cadastroEditorBean.excluir}" process="@this"
+					update=":frmPesquisa:editorsTable" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

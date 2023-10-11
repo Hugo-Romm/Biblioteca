@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportPrestamo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="caa40028-2e32-433a-9b76-13858344ad4c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="data_inicio" class="java.util.Date"/>
+	<parameter name="data_fin" class="java.util.Date"/>
+	<parameter name="numero_inicio" class="java.lang.Integer"/>
+	<parameter name="numero_fin" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     prestamo."numero" AS prestamo_numero,
+     prestamo."fecdev" AS prestamo_fecdev,
+     prestamo."fecpre" AS prestamo_fecpre,
+     prestamo."fecrec" AS prestamo_fecrec,
+     prestamo."nroejem" AS prestamo_nroejem,
+     prestamo."lector_codigo" AS prestamo_lector_codigo,
+     prestamo."libro_codigo" AS prestamo_libro_codigo,
+     lector."codigo" AS lector_codigo,
+     libro."codigo" AS libro_codigo,
+     libro."descri" AS libro_descri,
+     lector."nombre" AS lector_nombre
+FROM
+     public.deuda,
+     "public"."lector" lector INNER JOIN "public"."prestamo" prestamo ON lector."codigo" = prestamo."lector_codigo"
+     INNER JOIN "public"."libro" libro ON prestamo."libro_codigo" = libro."codigo"
+WHERE
+
+    prestamo."fecpre" BETWEEN $P{data_inicio} and $P{data_fin}
+ OR prestamo."numero" BETWEEN $P{numero_inicio} and $P{numero_fin}]]>
+	</queryString>
+	<field name="prestamo_numero" class="java.lang.Long"/>
+	<field name="prestamo_fecdev" class="java.sql.Timestamp"/>
+	<field name="prestamo_fecpre" class="java.sql.Timestamp"/>
+	<field name="prestamo_fecrec" class="java.sql.Timestamp"/>
+	<field name="prestamo_nroejem" class="java.lang.Integer"/>
+	<field name="prestamo_lector_codigo" class="java.lang.Long"/>
+	<field name="prestamo_libro_codigo" class="java.lang.Long"/>
+	<field name="lector_codigo" class="java.lang.Long"/>
+	<field name="libro_codigo" class="java.lang.Long"/>
+	<field name="libro_descri" class="java.lang.String"/>
+	<field name="lector_nombre" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="38" y="30" width="35" height="20" uuid="97823dfe-e3db-4548-a0ec-3c71e6beedf2"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="83" y="30" width="43" height="20" uuid="64c551fb-7cc3-4100-9124-ea05f3f35742"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Libro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="143" y="30" width="46" height="20" uuid="bd449e3d-cc75-43c2-8b42-a28afc01029b"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Ejemplar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="201" y="30" width="94" height="20" uuid="ae211bf0-f332-43ed-b56f-458420a972da"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha Préstamo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="30" width="100" height="20" uuid="05944738-751c-4ef7-b123-299a5446960b"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha Recuperación]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement x="38" y="0" width="35" height="20" uuid="ade22ad1-3331-4f73-91b1-544883a4e881"/>
+				<textFieldExpression><![CDATA[$F{prestamo_numero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="0" width="43" height="20" uuid="495beeb5-e582-43a4-bb2b-0f98f296c14c"/>
+				<textFieldExpression><![CDATA[$F{prestamo_libro_codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="143" y="0" width="46" height="20" uuid="de07ed08-dcc8-42d9-a4ae-6d40859435ff"/>
+				<textFieldExpression><![CDATA[$F{prestamo_nroejem}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="201" y="0" width="73" height="20" uuid="44ca25f3-cf42-475c-b6b5-cef91cf7955c"/>
+				<textFieldExpression><![CDATA[$F{prestamo_fecpre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="0" width="100" height="20" uuid="0bcb6969-fbd9-49a3-82e2-80b4e24b685a"/>
+				<textFieldExpression><![CDATA[$F{prestamo_fecrec}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
