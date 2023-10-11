@@ -50,9 +50,9 @@
 		<intercept-url pattern="/relatorios/**" access="hasAnyRole('FUNCIONARIOS', 'AUXILIARES', 'ADMINISTRADORES')" />
 		<intercept-url pattern="/habitaciones/**" access="hasAnyRole('FUNCIONARIOS', 'AUXILIARES', 'ADMINISTRADORES')" />
 		<intercept-url pattern="/ciudad/**" access="hasAnyRole('FUNCIONARIOS', 'AUXILIARES', 'ADMINISTRADORES')" />
-		<intercept-url pattern="/medida/**" access="hasAnyRole('FUNCIONARIOS', 'AUXILIARES', 'ADMINISTRADORES')" />
-
-		
+		<intercept-url pattern="/imprenta/**" access="hasAnyRole('FUNCIONARIOS', 'AUXILIARES', 'ADMINISTRADORES')" />
+		<intercept-url pattern="/alumno/**" access="hasAnyRole('FUNCIONARIOS', 'AUXILIARES', 'ADMINISTRADORES')" />
+		<intercept-url pattern="/docente/**" access="hasAnyRole('FUNCIONARIOS', 'AUXILIARES', 'ADMINISTRADORES')" />
 		
 		<intercept-url pattern="/**" access="denyAll" />
 		

@@ -28,11 +28,4 @@ public class EditorFilter implements Serializable {
 		this.descri = descri;
 	}
 
-	@Override
-	public String toString() {
-		return "EditorFilter [codigo=" + codigo + ", descri=" + descri + "]";
-	}
-
-	
-	
 }

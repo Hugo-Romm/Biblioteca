@@ -27,10 +27,11 @@ public class LibroFilter implements Serializable {
 	public void setDescri(String descri) {
 		this.descri = descri;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "LibroFilter [codigo=" + codigo + ", descri" + descri + "]";
+		return "LibroFilter [codigo=" + codigo + ", descri=" + descri + "]";
 	}
+	
 
 }

@@ -18,7 +18,6 @@ import org.hibernate.criterion.Restrictions;
 
 import com.infoIV.biblioteca.model.Libro;
 import com.infoIV.biblioteca.model.Editor;
-import com.infoIV.biblioteca.model.Lector;
 import com.infoIV.biblioteca.model.Prestamo;
 import com.infoIV.biblioteca.repository.filter.LibroFilter;
 import com.infoIV.biblioteca.repository.filter.PrestamoFilter;
@@ -58,6 +57,7 @@ public class Libros implements Serializable {
 	
 	@SuppressWarnings("unchecked")
 	public List<Libro> filtrados(LibroFilter filtro) {
+		
 		try {				
 			String sql = "FROM Libro  WHERE upper(descri) LIKE :valor";
 
@@ -69,8 +69,8 @@ public class Libros implements Serializable {
 			
 		} catch (NoResultException e) {
 			return null;
-		}		 
-	 				
+		}	
+
 	}
 
 	public Libro porId(Long codigo) {

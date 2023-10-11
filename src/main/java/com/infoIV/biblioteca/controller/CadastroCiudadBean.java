@@ -48,17 +48,13 @@ public class CadastroCiudadBean implements Serializable {
 	public void salvar() {
 		this.ciudad = (Ciudad) cadastroCiudadService.salvar(this.ciudad);
 		limpar();
-		FacesUtil.addInfoMessage("Ciudadial se agregó correctamente!");
+		FacesUtil.addInfoMessage("Ciudad se agregó correctamente!");
 	}
 
 	public Ciudad getCiudad() {
 		return ciudad;
 	}
 
-	public void setCiudade(Ciudad ciudad) {
-		this.ciudad = ciudad;
-		
-	}
 
 	
 	

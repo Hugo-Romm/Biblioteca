@@ -9,7 +9,7 @@
 
 	<ui:define name="cuerpo">
 	<h:form id="frmPesquisa">
-			<h1>Consulta de lectores (#{cadastroLectorBean.cantidad})</h1>
+			<h1>Consulta de lectores(#{cadastroLectorBean.cantidad}) </h1>
 
 			<p:messages autoUpdate="true" closable="true" />
 
@@ -18,6 +18,8 @@
 					<p:commandButton value="Consultar"
 						action="#{cadastroLectorBean.pesquisar}" update="@form" />
 				</p:toolbarGroup>
+				
+				
 				<p:toolbarGroup align="right">
 					<p:button value="Limpiar" outcome="/lectores/PesquisaLectors" />
 					
@@ -27,11 +29,14 @@
                     					
 					<p:button value="Nuevo" outcome="/lectores/CadastroLector" />
 				</p:toolbarGroup>
+				
+				
+
 			</p:toolbar>
 
 			<p:panelGrid columns="2" id="painel"
 				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
-
+				
 				<p:outputLabel value="Filtro de Nombre" for="nombre" />
 				<p:inputText id="nombre" size="60"
 					value="#{cadastroLectorBean.filtro.nombre}" />
@@ -39,46 +44,48 @@
 					
 			</p:panelGrid>
 			
-
-			<!-- TABLA POST CONSULTA  -->
+		
+		<!-- TABLA POST CONSULTA  -->	
 			
-			<h:panelGrid id="libr" columns="1" style="width: 100%" >
-				<h1>Listado de Lectores</h1>					
+		<h:panelGrid id="libr" columns="1" style="width: 100%" >
+			<h1>Listado de Lectores</h1>
 
-				<p:dataTable id="lectorsTable"
-					value="#{cadastroLectorBean.lectorsFiltrados}"
-					var="lector" style="margin-top: 20px"
-					emptyMessage="No hay lectores encontrados." rows="20"
-					paginator="true" paginatorAlwaysVisible="false"
-					paginatorPosition="bottom">
-					<p:column headerText="Codigo" style="text-align: center; width: 100px">
-						<h:outputText value="#{lector.codigo}" />
-					</p:column>
+			<p:dataTable id="lectorsTable"
+				value="#{cadastroLectorBean.lectorsFiltrados}"
+				var="lector" style="margin-top: 20px"
+				emptyMessage="No hay lectores encontrados." rows="20"
+				paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+				
+				<p:column headerText="Codigo" style="text-align: center; width: 100px">
+					<h:outputText value="#{lector.codigo}" />
+				</p:column>
+				
+				<p:column headerText="Nombre">
+					<h:outputText value="#{lector.nombre}" />
+				</p:column>
+				
+				<p:column headerText="Telefono"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{lector.telef}" />
+				</p:column>
+
+				<p:column style="width: 100px; text-align: center">
 					
-					<p:column headerText="Nombre">
-						<h:outputText value="#{lector.nombre}" />
-					</p:column>
+					<p:button outcome="/lectores/CadastroLector" icon="ui-icon-pencil"
+						title="a Editar">
+						<f:param name="lector" value="#{lector.codigo}" />
+					</p:button>
 					
-					<p:column headerText="Telefono"
-						style="text-align: center; width: 100px">
-						<h:outputText value="#{lector.telef}" />
-					</p:column>
-	
-					<p:column style="width: 100px; text-align: center">
-						
-						<p:button outcome="/lectores/CadastroLector" icon="ui-icon-pencil"
-							title="a Editar">
-							<f:param name="lector" value="#{lector.codigo}" />
-						</p:button>
-						
-						<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show()"
-		    					process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog">
-		    				<f:setPropertyActionListener target="#{cadastroLectorBean.lectorSelecionado}" 
-		    					value="#{lector}" />
-		    			</p:commandButton>
-		    		</p:column>
-		    	</p:dataTable>
-    		</h:panelGrid>	  
+					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show()"
+	    					process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog">
+	    				<f:setPropertyActionListener target="#{cadastroLectorBean.lectorSelecionado}" 
+	    					value="#{lector}" />
+	    			</p:commandButton>
+	    		</p:column>
+	    	</p:dataTable>
+	    </h:panelGrid>	
+	    	
 	    	
 	    	<p:confirmDialog header="Excluir" 
 	    		message="Seguro desea excluir  #{cadastroLectorBean.lectorSelecionado.id} - #{cadastroLectorBean.lectorSelecionado.nombre}?"

@@ -104,7 +104,11 @@ public class Ciudad implements Serializable {
 		return true;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Ciudad [codigo=" + codigo + ", descri=" + descri + ", obse=" + obse + "]";
+	}
+
 	
 	
 	

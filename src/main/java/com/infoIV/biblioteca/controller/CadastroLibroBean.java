@@ -1,8 +1,9 @@
-	package com.infoIV.biblioteca.controller;
+package com.infoIV.biblioteca.controller;
 
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -14,7 +15,7 @@ import com.infoIV.biblioteca.repository.Libros;
 import com.infoIV.biblioteca.repository.filter.LibroFilter;
 import com.infoIV.biblioteca.service.CadastroLibroService;
 import com.infoIV.biblioteca.util.jsf.FacesUtil;
-
+@ManagedBean
 @Named
 @ViewScoped
 public class CadastroLibroBean implements Serializable {
@@ -32,17 +33,18 @@ public class CadastroLibroBean implements Serializable {
 
 	private Libro libro;
 //	private Editor editorPadre;
+	
 	private Libro libroSelecionado;
 	private LibroFilter filtro;
 	private List<Libro> librosFiltrados;
 
-	
 	private List<Editor> editorRaiz;
 	private List<Editor> subeditores;
 	
 
 	public CadastroLibroBean() {
 		limpar();
+		filtro = new LibroFilter();
 	}
 
 	public void inicializar() {
@@ -108,9 +110,11 @@ public class CadastroLibroBean implements Serializable {
 	public boolean isEditando() {
 		return this.libro.getCodigo() != null;
 	}
+	
 	public Libro getLibroSelecionado() {
 		return libroSelecionado;
 	}
+
 	public void setLibroSelecionado(Libro libroSelecionado) {
 		this.libroSelecionado = libroSelecionado;
 	}
@@ -122,9 +126,12 @@ public class CadastroLibroBean implements Serializable {
 	public void setFiltro(LibroFilter filtro) {
 		this.filtro = filtro;
 	}
+
 	public List<Libro> getLibrosFiltrados() {
 		return librosFiltrados;
 	}
+
+
     public void excluir() {
     	libros.remover(libroSelecionado);
 		librosFiltrados.remove(libroSelecionado);    		
@@ -132,6 +139,9 @@ public class CadastroLibroBean implements Serializable {
 		FacesUtil.addInfoMessage("Editor " + libroSelecionado.getCodigo()
 				+ " eliminado con éxito.");
 	}	
+		
+	
+
 
 	public void pesquisar() {
 		
@@ -142,6 +152,7 @@ public class CadastroLibroBean implements Serializable {
 		}
 
 	}
+	
 	public int getCantidad() {
 		int i = 0;
 		if (librosFiltrados != null) {

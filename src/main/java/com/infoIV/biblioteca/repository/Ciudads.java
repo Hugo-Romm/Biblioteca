@@ -17,6 +17,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.infoIV.biblioteca.model.Ciudad;
 import com.infoIV.biblioteca.model.Libro;
+import com.infoIV.biblioteca.repository.filter.CiudadFilter;
 import com.infoIV.biblioteca.service.NegocioException;
 import com.infoIV.biblioteca.util.jpa.Transactional;
 
@@ -27,43 +28,26 @@ public class Ciudads implements Serializable {
 	@Inject
 	private EntityManager manager;
 
-	public Ciudad guardar(Ciudad ciudad) {
+	public Ciudad guardar(Ciudad editor) {
 				
-		return  manager.merge(ciudad);
+		return  manager.merge(editor);
 				 
 	}
 	
 	@Transactional
-	public void remover(Ciudad ciudad) {
+	public void remover(Ciudad editor) {
 		try {
-			ciudad = porId(ciudad.getCodigo());
-			manager.remove(ciudad);
+			editor = porId(editor.getCodigo());
+			manager.remove(editor);
 			manager.flush();
 		} catch (PersistenceException e) {
-			throw new NegocioException("No se pudo eliminar ésta Ciudadial. Verifique!.");
+			throw new NegocioException("No se pudo eliminar ésta Ciudad. Verifique!.");
 		}
 	}
 
 	
-	//@SuppressWarnings("unchecked")
-	//@SuppressWarnings("unchecked")
-	/*public List<Ciudad> filtrados(CiudadFilter filtro) {
-		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(Ciudad.class);
-		
-		if (filtro.getCodigo() != null) {
-			criteria.add(Restrictions.ge("codigo", filtro.getCodigo()));
-		}
-		
-		if (StringUtils.isNotBlank(filtro.getDescri())) {
-			criteria.add(Restrictions.ilike("descri", filtro.getDescri(), MatchMode.ANYWHERE));
-		}
-		
-		//return criteria.list();
-		
-		return criteria.addOrder(Order.asc("descri")).list();
-	}
-  /********   Para el formulario de Ciudadial  *************/
+	
+  /********   Para el formulario de Ciudad  *************/
 	public Ciudad porId(Long codigo) {
 		return manager.find(Ciudad.class, codigo);
 	}
@@ -86,23 +70,32 @@ public class Ciudads implements Serializable {
 		return this.manager.createQuery("from Ciudad", Ciudad.class)
 				.getResultList();
 	}
-//	public List<Ciudad> subciudadesDe(Ciudad ciudadPadre) {
-//		
-//		return manager.createQuery("from Ciudad where codigo = :raiz", 
-//				Ciudad.class).setParameter("raiz", ciudadPadre).getResultList();
-//	}
-
-/*	public List<Ciudad> porNomeLista(String descri) {
-
-		return this.manager.createQuery("from Ciudad " +
-				"where upper(descri) like :decri", Ciudad.class)
-				.setParameter("descri", descri.toUpperCase() + "%")
-				.getResultList();
+	
+	/****************   LISTADO DE registros  **************************/
+	@SuppressWarnings("unchecked")
+	public List<Ciudad> filtrados(CiudadFilter filtro) {
 		
-	}*/
+		
+		 
+			try {				
+				String sql = "FROM Ciudad  WHERE upper(descri) LIKE :valor";
+
+				List<Ciudad> results = manager.createQuery(sql, Ciudad.class)
+				.setParameter("valor",  ("%"+filtro.getDescri().toUpperCase())+"%")
+				.getResultList();
+				
+				return results;
+				
+			} catch (NoResultException e) {
+				return null;
+			}		  
+		 
+	}
+
+
 	/****************   LISTADO DE EDITORIAL  **************************/
 	@SuppressWarnings({ "unchecked" })
-	public List<Ciudad> filtradosReportesCiudadTeste2(Ciudad ciudad,Long codigoInicio, Long codigoFin,String descriInicio, String descriFin, Integer console ) {
+	public List<Ciudad> filtradosReportesCiudadTeste2(Ciudad editor,Long codigoInicio, Long codigoFin,String descriInicio, String descriFin, Integer console ) {
 		Session session = manager.unwrap(Session.class);
 	    Criteria criteriaEdit = session.createCriteria(Ciudad.class);
 	    		
@@ -139,14 +132,7 @@ public class Ciudads implements Serializable {
 	
 /****************************************************************************************/
 	
-/*	public List<Ciudad> lista() {
-		return manager.createQuery("from Ciudad", Ciudad.class).getResultList();
-	}
-	
-	public List<Ciudad> subciudadsDe(Ciudad codigo) {
-		return manager.createQuery("from Ciudad", Ciudad.class).getResultList();
 
-	}*/
 	}
 
 

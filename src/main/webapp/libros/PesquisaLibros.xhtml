@@ -13,6 +13,8 @@
 
 			<p:messages autoUpdate="true" closable="true" />
 
+
+			<!-- TOOLBAR 1 -->
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
 					<p:commandButton value="Consultar"
@@ -20,18 +22,17 @@
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Limpiar" outcome="/libros/PesquisaLibros" />
-					
 					<p:commandButton value="Detallado" type="button" icon="ui-icon-print" >
                     <p:printer target="libr" />
-                    </p:commandButton>
-                    
+                    </p:commandButton>			
+                    	
 					<p:button value="Nuevo" outcome="/libros/CadastroLibro" />
 				</p:toolbarGroup>
 			</p:toolbar>
 
 
 			<!-- GRID DE CONSULTA -->
-			 <p:panelGrid columns="2" id="painel"
+			<p:panelGrid columns="2" id="painel"
 				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
 
 
@@ -41,68 +42,64 @@
 
 			</p:panelGrid>
 
-			<!-- 	<p:outputLabel value="Codigo" for="codigo" />
-				<p:inputText id="codigo" size="8"
-					value="#{pesquisaLibrosBean.filtro.codigo}" /> -->
 
 			<!-- TABLA POST CONSULTA  -->
 			
 			<h:panelGrid id="libr" columns="1" style="width: 100%" >
-				<h1>Listado de Libros</h1>
-				
-			<p:dataTable id="librosTable"
-				value="#{cadastroLibrosBean.librosFiltrados}" var="libro"
-				style="margin-top: 20px" emptyMessage="No hay libros encontrados."
-				rows="20" paginator="true" paginatorAlwaysVisible="false"
-				paginatorPosition="bottom">
-
-
-				<p:column headerText="Código"
-					style="text-align: center; width: 100px">
-					<h:outputText value="#{libro.codigo}" />
-				</p:column>
-
-				<p:column headerText="Libro">
-					<h:outputText value="#{libro.descri}" />
-				</p:column>
-				<p:column headerText="Autor" style="text-align: right; width: 120px">
-					<h:outputText value="#{libro.autor}" />
-				</p:column>
-				<p:column headerText="Editorial" style="text-align: right; width: 120px">
-					<h:outputText value="#{libro.editor.descri}" />
-				</p:column>
-				<p:column headerText="Isbn" style="text-align: right; width: 120px">
-					<h:outputText value="#{libro.isbn}" />
-				</p:column>
-				<p:column headerText="Observación"
-					style="text-align: right; width: 120px">
-					<h:outputText value="#{libro.obse}" />
-				</p:column>
-
-				<p:column style="width: 100px; text-align: center">
-
-					<p:button outcome="/libros/CadastroLibro" icon="ui-icon-pencil"
-						title="a Editar">
-						<f:param name="libro" value="#{libro.codigo}" />
-					</p:button>
-
-					<p:commandButton icon="ui-icon-trash" title="Excluir"
-						oncomplete="confirmacaoExclusao.show()" process="@this"
-						update=":frmPesquisa:confirmacaoExclusaoDialog">
-						<f:setPropertyActionListener
-							target="#{cadastroLibrosBean.libroSelecionado}" value="#{libro}" />
-					</p:commandButton>
-				</p:column>
-			</p:dataTable>
-			</h:panelGrid>
+				<h1>Listado de Libros</h1>				
+				<p:dataTable id="librosTable"
+					value="#{cadastroLibroBean.librosFiltrados}" var="libro"
+					style="margin-top: 20px" emptyMessage="No hay libros encontrados."
+					rows="20" paginator="true" paginatorAlwaysVisible="false"
+					paginatorPosition="bottom">
+	
+	
+					<p:column headerText="Código"
+						style="text-align: center; width: 100px">
+						<h:outputText value="#{libro.codigo}" />
+					</p:column>
+	
+					<p:column headerText="Descripción - Libro">
+						<h:outputText value="#{libro.descri}" />
+					</p:column>
+					<p:column headerText="Autor" style="text-align: right; width: 120px">
+						<h:outputText value="#{libro.autor}" />
+					</p:column>
+					<p:column headerText="Editorial" style="text-align: right; width: 120px">
+						<h:outputText value="#{libro.editor.descri}" />
+					</p:column>
+					<p:column headerText="Isbn" style="text-align: right; width: 120px">
+						<h:outputText value="#{libro.isbn}" />
+					</p:column>
+					<p:column headerText="Observación"
+						style="text-align: right; width: 120px">
+						<h:outputText value="#{libro.obse}" />
+					</p:column>
+	
+					<p:column style="width: 100px; text-align: center">
+	
+						<p:button outcome="/libros/CadastroLibro" icon="ui-icon-pencil"
+							title="a Editar">
+							<f:param name="libro" value="#{libro.codigo}" />
+						</p:button>
+	
+						<p:commandButton icon="ui-icon-trash" title="Excluir"
+							oncomplete="confirmacaoExclusao.show()" process="@this"
+							update=":frmPesquisa:confirmacaoExclusaoDialog">
+							<f:setPropertyActionListener
+								target="#{cadastroLibroBean.libroSelecionado}" value="#{libro}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+    		</h:panelGrid>						
 
 			<p:confirmDialog header="Excluir"
-				message="Seguro desea eliminar  #{cadastroLibrosBean.libroSelecionado.codigo} - #{cadastroLibrosBean.libroSelecionado.descri}?"
+				message="Seguro desea eliminar  #{cadastroLibroBean.libroSelecionado.codigo} - #{cadastroLibroBean.libroSelecionado.descri}?"
 				widgetVar="confirmacaoExclusao" id="confirmacaoExclusaoDialog">
 				<p:button value="No"
 					onclick="confirmacaoExclusao.hide(); return false;" />
 				<p:commandButton value="Si" oncomplete="confirmacaoExclusao.hide();"
-					action="#{cadastroLibrosBean.excluir}" process="@this"
+					action="#{cadastroLibroBean.excluir}" process="@this"
 					update=":frmPesquisa:librosTable" />
 			</p:confirmDialog>
 		</h:form>

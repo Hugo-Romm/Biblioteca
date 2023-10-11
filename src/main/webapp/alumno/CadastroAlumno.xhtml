@@ -1,0 +1,76 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroAlumnoBean.editando ? 'Modificar Alumno' : 'Nueva Alumno'}</ui:define>
+
+	<ui:define name="cuerpo">
+		<f:metadata>
+			<o:viewParam name="alumno" value="#{cadastroAlumnoBean.alumno}" />
+			<f:event listener="#{cadastroAlumnoBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form>
+
+			<h1>#{cadastroAlumnoBean.editando ? 'Modificar Alumno' :
+				'Nueva Alumno'}</h1>
+
+			<p:messages autoUpdate="true" closable="true" />
+
+
+
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Nuevo" outcome="/alumno/CadastroAlumno" />
+					<p:commandButton value="Guardar" id="botaoSalvar"
+						action="#{cadastroAlumnoBean.salvar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Consulta" outcome="/alumno/PesquisaAlumno" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel" style=" margin-top: 20px"
+				columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Codigo" for="id" />
+				<p:inputText id="id" size="20" maxlength="20"
+					value="#{cadastroAlumnoBean.alumno.codigo}" disabled="true" />
+					
+				<p:outputLabel value="Nombre" for="nombre" />
+				<p:inputText id="nombre" size="50" maxlength="80"
+					value="#{cadastroAlumnoBean.alumno.nombre}" />
+					
+				<p:outputLabel value="Edad" for="edad" />
+				<p:inputText id="edad" size="50" maxlength="80"
+					value="#{cadastroAlumnoBean.alumno.edad}" />
+
+				<p:outputLabel value="Fecha de Nacimiento" for="fechanac" />
+				<p:inputText id="fechanac" size="50" maxlength="80"
+					value="#{cadastroAlumnoBean.alumno.fechanac}" />
+					
+				<p:outputLabel value="Materia" for="materia" />
+				<p:inputText id="materia" size="50" maxlength="80"
+					value="#{cadastroAlumnoBean.alumno.materia}" />
+
+				<p:outputLabel value="Curso" for="curso" />
+				<p:inputText id="curso" size="50" maxlength="80"
+					value="#{cadastroAlumnoBean.alumno.curso}" />
+
+
+			
+
+
+			</p:panelGrid>
+			
+			
+	
+		</h:form>
+
+	</ui:define>
+</ui:composition>
