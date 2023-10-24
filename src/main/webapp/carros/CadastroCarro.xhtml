@@ -1,0 +1,76 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroCarroBean.editando ? 'Modificar Carro' : 'Nuevo Carro'}</ui:define>
+
+	<ui:define name="cuerpo">
+		<f:metadata>
+			<o:viewParam name="carro" value="#{cadastroCarroBean.carro}" />
+			<f:event listener="#{cadastroCarroBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form>
+
+			<h1>#{cadastroCarroBean.editando ? 'Modificar Carro' : 'Nuevo
+				Carro'}</h1>
+
+			<p:messages autoUpdate="true" closable="true" />
+
+
+
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Nuevo" outcome="/carros/CadastroCarro" />
+					<p:commandButton value="Guardar" id="botaoSalvar"
+						action="#{cadastroCarroBean.salvar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Consulta" outcome="/carros/PesquisaCarros" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel" style=" margin-top: 20px"
+				columnClasses="rotulo, campo">
+				
+				<p:outputLabel value="Codigo" for="id" />
+				<p:inputText id="id" size="20" maxlength="20"
+					value="#{cadastroCarroBean.carro.codigo}" disabled="true" />
+
+				<p:outputLabel value="Marca" for="marca" />
+				<p:inputText id="marca" size="100" maxlength="100"
+					value="#{cadastroCarroBean.carro.marca}" />
+					
+				<p:outputLabel value="Docente" for="docente" />
+				<p:selectOneMenu id="docente"
+					value="#{cadastroCarroBean.carro.docente}">
+					<f:selectItem itemLabel="Seleccione el Docente" />
+					<f:selectItems value="#{cadastroCarroBean.subdocentees}"
+						var="docente" itemValue="#{codigo}"
+						itemLabel="#{docente.nombre}" />
+
+				</p:selectOneMenu>
+
+
+				<p:outputLabel value="Modelo" />
+				<p:inputTextarea rows="3" cols="52" counter="display"
+					maxlength="200" counterTemplate="{0} caracteres restantes."
+					autoResize="false" value="#{cadastroCarroBean.carro.modelo}" />
+				<p:spacer/><h:outputText id="display" />
+				
+
+				<p:outputLabel value="Cod. Año" for="ano" />
+				<p:inputText id="ano" size="30" maxlength="30"
+					value="#{cadastroCarroBean.carro.ano}" />
+
+			</p:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
